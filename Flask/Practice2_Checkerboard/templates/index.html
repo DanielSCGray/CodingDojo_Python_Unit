@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Checkerboard</h1>
+    <div class="main">
+        {% for i in range(0,x): %}
+        <div class="row">
+            {% if i % 2 ==0: %}
+            {% for j in range(0,y): %}
+            {% if j % 2 ==0: %}
+            <div class="box" style="background-color: {{ color1 }};"></div>
+            {% endif %}
+            {% if j % 2 == 1: %}
+            <div class="box" style="background-color: {{ color2 }};"></div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% if i % 2 ==1: %}
+            {% for j in range(0,y): %}
+            {% if j % 2 ==0: %}
+            <div class="box" style="background-color: {{ color2 }};"></div>
+            {% endif %}
+            {% if j % 2 == 1: %}
+            <div class="box" style="background-color: {{ color1 }};"></div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+        </div>
+        {% endfor %}
+
+    </div>
+</body>
+</html>
