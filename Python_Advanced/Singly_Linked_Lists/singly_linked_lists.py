@@ -2,6 +2,9 @@ class SLNode:
     def __init__(self, val) -> None:
         self.value = val
         self.next = None
+    
+    def __str__(self) -> str:
+        return f"<node {self.value}>"
 
 class SList:
     def __init__(self) -> None:
@@ -17,7 +20,7 @@ class SList:
     def print_values(self):
         runner = self.head
         while runner != None:
-            print(runner.value)
+            print(runner)
             runner = runner.next
         return self
     
@@ -105,20 +108,35 @@ class SList:
 #Testing
 my_list = SList()
 
-# print(my_list.head)
+print(my_list.head)
+my_list.print_values()
 
 my_list.add_to_front(3)
 # my_list.print_values()
-my_list.add_to_front(2)
-my_list.add_to_back(4)
-my_list.add_to_front(1)
-my_list.add_to_back(5)
-my_list.print_values()
-# my_list.remove_from_front()
+
+my_list.add_to_front(2).add_to_front(1)
 # my_list.print_values()
-# my_list.remove_from_back()
+
+
+my_list.add_to_back(4).add_to_back(5)
 # my_list.print_values()
+
+my_list.remove_from_front()
+# my_list.print_values()
+
+my_list.remove_from_back()
+# my_list.print_values()
+
+
 my_list.remove_val(3)
+# my_list.print_values()
+
+# my_list.remove_val(3)
+
+my_list.add_to_front(1).add_to_back(5)
+
+# my_list.print_values()
+
+my_list.insert_at(3,3)
+
 my_list.print_values()
-my_list.remove_val(3)
-my_list.insert_at(3,3).print_values()

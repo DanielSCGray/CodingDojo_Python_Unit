@@ -20,11 +20,11 @@
     width: 150px;
     height: 150px;
     margin: 20px;
-    background-color: "{{newcolor}}";
     border: black solid;
     display: flex;
 }
     </style>
+    
     <title>Playgrounds</title>
     
 </head>
@@ -35,7 +35,8 @@
     <div class="main">
 
         {% for i in range(0,x): %}
-        <div class="box"></div>
+        <!-- line 39 reads newcolor as an error but it runs properly in the virtual environment -->
+        <div class="box" style="background-color: {{ newcolor }};"></div>
         {% endfor %}
 
     </div>

@@ -1,9 +1,9 @@
 from flask import Flask, render_template
 app = Flask(__name__)
 
+
 @app.route('/play')
 def display():
-
     return render_template('index.html', x=3, newcolor='blue')
 
 app.route('/')
@@ -15,19 +15,9 @@ def display2(num):
 
     return render_template("index.html", x=num, newcolor='blue')
 
-@app.route('/play/<int:num>/<color>')
-def display3(num, color):
-    return render_template("index.html", x=num, newcolor=color)
-
-
-
-
-
-
-
-
-
-
+@app.route('/play/<int:num>/<user_color>')
+def display3(num, user_color):
+    return render_template("index.html", x=num, newcolor=user_color)
 
 
 
