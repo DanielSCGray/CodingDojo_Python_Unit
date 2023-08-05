@@ -14,19 +14,21 @@
         <div class="row justify-content-center">
             <div class="col-10 bg-dark text-secondary mt-3">
                 <h1>Welcome to the Great Number Game!</h1>
-                <h3>I am thiking of a number between 1 and 100</h3>
+                <h3>I am thinking of a number between 1 and 100</h3>
             </div>
-            {% if %}
+            {% if session.user_guess %}
+            {% if session.user_guess < session.winning_number: %}
             <div class="col-8 bg-danger p-5 text-white">Too Low</div>
-            {% elif %}
+            {% elif session.user_guess > session.winning_number: %}
             <div class="col-8 bg-danger p-5 text-white">Too High</div>
-            {% else %}
+            {% else: %}
             <div class="col-8 bg-success p-5 text-white">
-                <h3>Correct! My Number Was {}</h3>
-                <form action="/win">
+                <h3>Correct! My Number Was {{ session.winning_number }}</h3>
+                <form action="/win" method="post">
                     <button type="submit" >Play Again</button>
                 </form>
             </div>
+            {% endif %}
             {% endif %}
             <div class="col-6 bg-dark p-3 text-white">
                 <h5>Guess a number!</h5>
