@@ -4,10 +4,12 @@ app.secret_key = 'ea3fdb7f1bcf66419ab5eb540eecbc8dc82941cf7e073d49b4def6928d801f
 
 @app.route('/')
 def homepage():
+    print('test')
     return render_template('index.html')
 
 @app.route('/process', methods=['POST'])
 def process():
+    print('test2')
     session['name'] = request.form['name']
     session['location'] = request.form['location']
     session['language'] = request.form['language']
