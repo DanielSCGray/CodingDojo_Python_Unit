@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Dojos</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row gx-5">
+            <div class="col-4 m-5">
+                <h1>Add A Dojo</h1>
+                <form action="/process/dojo" method="post">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Location:</label>
+                        <input type="text" class="form-control" name="name" id="name">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Dojo</button>
+                </form>
+            </div>
+            <div class="col-4 m-5">
+                <h1>All Dojos</h1>
+                <div class="border mb-5">
+                    {% for dojo in dojos %}
+                    <div class="row"><a href="/dojos/{{ dojo.id }}">{{ dojo.name }}</a></div>
+                    {% endfor %}
+                </div>
+                <a href="/add_ninja">Add a Ninja</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

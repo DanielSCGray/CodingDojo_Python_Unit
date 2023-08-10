@@ -23,7 +23,7 @@ class User:
     
     @classmethod
     def get_all(cls):
-        query = 'select * from users'
+        query = 'select * from users;'
         results = connect_to_mysql(DATABASE).query_db(query)
         users = []
         for dict in results:
