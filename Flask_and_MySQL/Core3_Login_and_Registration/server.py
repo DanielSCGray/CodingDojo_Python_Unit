@@ -1,6 +1,6 @@
 from flask_app import app
-from flask_app.models import email
-from flask_app.controllers import emails
+from flask_app.models import user
+from flask_app.controllers import users
 
 
 
