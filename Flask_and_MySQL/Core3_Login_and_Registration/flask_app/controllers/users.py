@@ -39,6 +39,8 @@ def log_in():
 
 @app.route('/welcome')
 def welcome_page():
+    if 'user_id' not in session.keys():
+        return redirect('/')
     return render_template('welcome.html')
 
 @app.post('/log_out')
