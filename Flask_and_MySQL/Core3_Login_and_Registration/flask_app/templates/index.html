@@ -14,6 +14,15 @@
         <div class="row gx-5">
             <div class="col-4 m-5">
                 <h1>Register</h1>
+                {% with messages = get_flashed_messages()  %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message != 'Invalid email/password' %}
+                                <p>{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
                 <form action="/register" method="post">
                     <div class="mb-3">
                         <label for="first_name" class="form-label">First Name</label>
@@ -29,17 +38,26 @@
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="text" class="form-control" name="password" id="password">
+                        <input type="password" class="form-control" name="password" id="password">
                     </div>
                     <div class="mb-3">
                         <label for="confirm_password" class="form-label">Confirm Password</label>
-                        <input type="text" class="form-control" name="confirm_password" id="confirm_password">
+                        <input type="password" class="form-control" name="confirm_password" id="confirm_password">
                     </div>
                     <button type="submit" class="btn btn-primary">Create Account</button>
                 </form>
             </div>
             <div class="col-4 m-5">
                 <h1>Log-In</h1>
+                {% with messages = get_flashed_messages()  %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message == 'Invalid email/password' %}
+                                <p>{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
                 <form action="/log_in" method="post">
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
@@ -47,7 +65,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="text" class="form-control" name="password" id="password">
+                        <input type="password" class="form-control" name="password" id="password">
                     </div>
                     <button type="submit" class="btn btn-success">Log In</button>
                 </form>
