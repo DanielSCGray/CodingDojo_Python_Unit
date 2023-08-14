@@ -15,7 +15,11 @@ def show_author(author_id):
     books = book.Book.get_all()
     return render_template('author_show.html', author = this_author, books = books)
 
-    
+@app.post('/add_fav_a')
+def add_favorite_a():
+    author.Author.add_favorite(request.form)
+    author_id = request.form['author_id']
+    return redirect(f"/authors/{author_id}")
 
 @app.post('/process/author')
 def new_author():

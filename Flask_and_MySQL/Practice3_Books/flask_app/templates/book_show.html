@@ -16,20 +16,24 @@
                 <h1>Title: {{ book.title }}</h1>
                 <h3>Favorited by:</h3>
                 <div class="border mb-5">
-                    {% for author in authors %}
-                    <div class="row">{{ author.name }}</div>
+                    {% for author in book.favorited_authors %}
+                        <div class="row m-1">{{ author.name }}</div>
                     {% endfor %}
                 </div>
             </div>
             <div class="col-4 m-5">
-                <div class="border mb-5">
-                    <h1>Add a Author to Favorites</h1>
-                    <form action="/process/" method="post">
+                <div class="border mb-5">          
+                    <h1>Add an Author to Favorites</h1>
+                    <form action="/add_fav_b" method="post">
+                        <input type="hidden" name="book_id" value="{{ book.id }}">
                         <div class="mb-3">
                             <label for="author_id" class="form-label">Author:</label>
                             <select class="form-control" name="author_id">
                                 {% for author in authors %}
-                                <option value="{{ author.id }}">{{ author.name }}</option>
+                                    {% if author in book.favorited_authors %}
+                                        continue
+                                    {% endif %}
+                                    <option value="{{ author.id }}">{{ author.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>

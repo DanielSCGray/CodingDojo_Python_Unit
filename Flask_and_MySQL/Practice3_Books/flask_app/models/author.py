@@ -49,3 +49,10 @@ class Author:
             }
             author.favorite_books.append(book.Book(book_data))
         return author
+    
+    @classmethod
+    def add_favorite(cls, form_data):
+        query = '''INSERT INTO favorites (author_id, book_id)
+        VALUES (%(author_id)s, %(book_id)s);'''
+        return connect_to_mysql(DATABASE).query_db(query, form_data)
+

@@ -31,7 +31,7 @@ class Book:
         return books
     
     @classmethod
-    def get_author_with_favorites(cls, book_id):
+    def get_book_with_favorites(cls, book_id):
         query = '''SELECT * FROM books
         LEFT JOIN favorites ON favorites.book_id = books.id
         LEFT JOIN authors ON favorites.author_id = authors.id

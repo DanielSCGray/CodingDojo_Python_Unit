@@ -23,19 +23,23 @@
                     </thead>
                     <tbody>
                         {% for book in author.favorite_books %}
+                        {% if book.title != None %}
                         <tr>
                             <th scope="row">{{ book.title }}</th>
                             <td>{{ book.page_count }}</td>
                         </tr>
+                        
+                        {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>
-                <a href="/authors">To Authors</a>
+                <a href="/">To Authors</a>
             </div>
             <div class="col-4 m-5">
                 <div class="border mb-5">
                     <h1>Add a Book to Favorites</h1>
-                    <form action="/process/" method="post">
+                    <form action="/add_fav_a" method="post">
+                        <input type="hidden" name="author_id" value="{{ author.id }}">
                         <div class="mb-3">
                             <label for="book_id" class="form-label">Book Title:</label>
                             <select class="form-control" name="book_id">
