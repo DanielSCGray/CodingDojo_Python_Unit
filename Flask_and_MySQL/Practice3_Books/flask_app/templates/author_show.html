@@ -22,7 +22,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for book in %}
+                        {% for book in author.favorite_books %}
                         <tr>
                             <th scope="row">{{ book.title }}</th>
                             <td>{{ book.page_count }}</td>
@@ -40,7 +40,9 @@
                             <label for="book_id" class="form-label">Book Title:</label>
                             <select class="form-control" name="book_id">
                                 {% for book in books %}
-                                <option value="{{ book.id }}">{{ book.title }}</option>
+                                    {% if book not in author.favorite_books %}
+                                        <option value="{{ book.id }}">{{ book.title }}</option>
+                                    {% endif %}
                                 {% endfor %}
                             </select>
                         </div>
