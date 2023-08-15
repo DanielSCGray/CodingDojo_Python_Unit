@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Login/Register</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row gx-5">
+            <div class="col-4 m-5">
+                <h1>Register</h1>
+                {% with messages = get_flashed_messages()  %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message != 'Invalid email/password' %}
+                                <p>{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form action="/register" method="post">
+                    <div class="mb-3">
+                        <label for="first_name" class="form-label">First Name</label>
+                        <input type="text" class="form-control" name="first_name" id="first_name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="last_name" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" name="last_name" id="last_name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" class="form-control" name="email" id="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" id="password">
+                        <div id="password_help" class="form-text">Password must be at least 8 characters and include a number and an uppercase letter</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" name="confirm_password" id="confirm_password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </form>
+            </div>
+            <div class="col-4 m-5">
+                <h1>Log-In</h1>
+                {% with messages = get_flashed_messages()  %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message == 'Invalid email/password' %}
+                                <p>{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form action="/log_in" method="post">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" class="form-control" name="email" id="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" id="password">
+                    </div>
+                    <button type="submit" class="btn btn-success">Log In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
