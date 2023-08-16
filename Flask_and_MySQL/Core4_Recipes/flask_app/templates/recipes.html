@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Recipes</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome, {{ user.first_name }}</h1>
+        <div class="d-flex justify-content-end">
+            <div class="col-auto pe-5"><a href="/recipes/add">Add a Recipe</a></div>
+            <div class="col-auto">
+                <form action="/log_out" method="post">
+                    <input class="bg-primary" type="submit" value="Log Out">
+                </form>
+            </div>
+        </div>
+        <h5>All posted recipes: </h5>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Under 30 min?</th>
+                    <th scope="col">Posted By</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for guy in rel_users %}
+                    
+                
+                {% for recipe in guy.recipe_list %}
+                    
+                
+                <tr>
+                    <th scope="row">{{ recipe.name }}</th>
+                    <td>{{ recipe.under_30 }}</td>
+                    <td>{{ guy.first_name }}</td>
+                    <td><a href="/recipes/{{ recipe.id }}">View Recipe</a>
+                        {% if guy.id == session.user_id %}
+                        | <a href="/recipes/{{ recipe.id }}/edit">Edit</a> | <a href="/recipes/{{ recipe.id }}/delete">Delete</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+</body>
+
+</html>

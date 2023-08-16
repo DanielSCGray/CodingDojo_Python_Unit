@@ -1,11 +1,11 @@
 from flask_app.config.mysql_connection import connect_to_mysql
 import re
-from flask_app.models import REPLACE
+from flask_app.models import recipe
 from flask import flash
 
-# Set DATABASE below, specify REPLACE above
+# Set DATABASE below
 
-# DATABASE = 
+DATABASE = 'recipes_db'
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 NUMBERS_REGEX = re.compile(r'[0-9]')
@@ -18,6 +18,7 @@ class User:
         self.last_name = data['last_name']
         self.email = data['email']
         self.password = data['password']
+        self.recipe_list = []
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
@@ -102,13 +103,11 @@ class User:
         result = connect_to_mysql(DATABASE).query_db(query, data)
         user = User(result[0])
         return user
-
-    #ONE TO MANY
-    #CUSTOMIZE WITH TABLE INFO FROM OTHER TABLE
+    
     @classmethod 
-    def get_user_with_replace(cls, user_id):
+    def get_user_with_recipes(cls, user_id):
         query = '''SELECT * FROM users
-        LEFT JOIN replaces ON replaces.user_id = users.id
+        LEFT JOIN recipes ON recipes.creator_id = users.id
         WHERE users.id = %(user_id)s;
         '''
         data = {'user_id': user_id}
@@ -116,34 +115,28 @@ class User:
 
         user = User(results[0])
         for row in results:
-            replace_data = {
-                'id' : row['replaces.id'],
-                'first_name' : row['first_name'],
-                'last_name' : row['last_name'],
-                'age' : row['age'],
-                'created_at' : row['replaces.created_at'],
-                'updated_at' : row['replaces.updated_at']
-            }
-            user.replace_storage.append(Replace(replace_data))
+            if row['name']:
+                recipe_data = {
+                    'id': row['recipes.id'],
+                    'name': row['name'],
+                    'description': row['description'],
+                    'instructions': row['instructions'],
+                    'under_30': row['under_30'],
+                    'date_made': row['date_made'],
+                    'created_at' : row['recipes.created_at'],
+                    'updated_at' : row['recipes.updated_at']
+                }
+                user.recipe_list.append(recipe.Recipe(recipe_data))
         return user
-        
-    @classmethod
-    def update(cls, form_data):
-        query = '''
-        update users
-        set first_name = %(first_name)s, last_name = %(last_name)s, email = %(email)s
-        where id = %(user_id)s;
-        '''
-
-        connect_to_mysql(DATABASE).query_db(query, form_data)
-        return
     
     @classmethod
-    def delete(cls, user_id):
-        query = '''
-        delete from users where id = %(user_id)s;
-        '''
-        data = {'user_id': user_id}
+    def get_all_with_all(cls):
+        all_users = User.get_all()
+        users_with_recipes = []
+        for user in all_users:
+            user_with_r = User.get_user_with_recipes(user.id)
+            if len(user_with_r.recipe_list) > 0:
+                users_with_recipes.append(user_with_r)
+        return users_with_recipes
 
-        connect_to_mysql(DATABASE).query_db(query, data)
-        return
+
