@@ -14,6 +14,7 @@ class Example:
         self.property2 = data['property2']
         self.property3 = data['property3']
         self.property4 = data['property4']
+        self.parent_id = data['parent_id']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
@@ -29,10 +30,35 @@ class Example:
     
     @classmethod
     def get_all(cls):
-        query = 'SELECT * FROM examples'
+        query = 'SELECT * FROM examples;'
         result = connect_to_mysql(DATABASE).query_db(query)
         examples = []
         for example in result:
             examples.append(Example(example))
         return examples
     
+    @classmethod
+    def get_by_id(cls, example_id):
+        query = 'SELECT * FROM examples WHERE id = %(example_id)s;'
+        data = {'example_id': example_id}
+        result = connect_to_mysql(DATABASE).query_db(query, data)
+        example = Example(result[0])
+        return example
+    
+    @classmethod
+    def update(cls, form_data):
+        #Remember the edit form should use a hidden input to provide the id of the example data being edited
+        query = '''UPDATE examples
+        SET properety1=%(properety1)s, property2=%(property2)s, property3=%(property3)s, property4=%(property4)s, property5=%(property5)s
+        WHERE id = %(example_id)s;'''
+        return connect_to_mysql(DATABASE).query_db(query, form_data)
+
+    @classmethod
+    def delete(cls, example_id):
+        query = '''
+        delete from examples where id = %(example_id)s;
+        '''
+        data = {'example_id': example_id}
+
+        connect_to_mysql(DATABASE).query_db(query, data)
+        return

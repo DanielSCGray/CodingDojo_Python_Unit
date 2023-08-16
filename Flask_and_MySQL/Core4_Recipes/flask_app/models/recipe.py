@@ -53,7 +53,7 @@ class Recipe:
     
     @classmethod
     def get_all(cls):
-        query = 'SELECT * FROM recipes'
+        query = 'SELECT * FROM recipes;'
         result = connect_to_mysql(DATABASE).query_db(query)
         recipes = []
         for recipe in result:
