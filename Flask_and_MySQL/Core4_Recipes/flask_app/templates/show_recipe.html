@@ -6,40 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <title>Recipes</title>
+    <title>Show Recipe</title>
 </head>
 
 <body>
     <div class="container">
         <h1>Welcome, {{ user.first_name }}</h1>
-        <div class="d-grid justify-content-end">
-            <a href="/recipes">Home</a>
-            <form action="/log_out" method="post">
-                <input class="bg-primary" type="submit" value="Log Out">
-            </form>
+        <div class="row">
+            <div class="d-flex justify-content-end">
+                <div class="col-auto pe-5"><a href="/recipes">Home</a></div>
+                <div class="col-auto">
+                    <form action="/log_out" method="post">
+                        <input class="bg-primary" type="submit" value="Log Out">
+                    </form>
+                </div>
         </div>
         <div class="row">
             <h1>{{ recipe.name }}</h1>
         </div>
         <div class="row">
-            <h4>Posted by: {{ recipe.creator_name }}</h4>
+            <h4>Posted by: {{ recipe_creator.first_name }}</h4>
         </div>
         <div class="col-8 border">
-            <div class="row">
-                <div class="col-auto">Description</div>
-                <div class="col-auto">{{ recipe.description }}</div>
+            <div class="row mb-3">
+                <div class="col-auto">Description:</div>
+                <div class="col-auto ms-5">{{ recipe.description }}</div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-auto">Under 30 minutes?</div>
-                <div class="col-auto">{{ recipe.under_30 }}</div>
+                <div class="col-auto ms-5">{{ recipe.under_30 }}</div>
             </div>
-            <div class="row">
-                <div class="col-auto">Instructions</div>
-                <div class="col-auto">{{ recipe.instructions }}</div>
+            <div class="row mb-3">
+                <div class="col-auto">Instructions:</div>
+                <div class="col-auto ms-5">{{ recipe.instructions }}</div>
             </div>
-            <div class="row">
-                <div class="col-auto">Date made</div>
-                <div class="col-auto">{{ recipe.date_made }}</div>
+            <div class="row mb-3">
+                <div class="col-auto">Date made:</div>
+                <div class="col-auto ms-5">{{ recipe.date_made }}</div>
             </div>
         </div>
     </div>

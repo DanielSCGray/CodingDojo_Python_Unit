@@ -28,6 +28,7 @@
                     <th scope="col">Under 30 min?</th>
                     <th scope="col">Posted By</th>
                     <th scope="col">Actions</th>
+                    <th scope="col">Delete?</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,7 +44,10 @@
                     <td>{{ guy.first_name }}</td>
                     <td><a href="/recipes/{{ recipe.id }}">View Recipe</a>
                         {% if guy.id == session.user_id %}
-                        | <a href="/recipes/{{ recipe.id }}/edit">Edit</a> | <a href="/recipes/{{ recipe.id }}/delete">Delete</a>
+                        | <a href="/recipes/{{ recipe.id }}/edit">Edit</a>
+                    </td>
+                    <td>
+                        <form action="/recipes/{{ recipe.id }}/delete" method="post" > <input type="submit" class="bg-danger" value="Delete"></form>
                         {% endif %}
                     </td>
                 </tr>

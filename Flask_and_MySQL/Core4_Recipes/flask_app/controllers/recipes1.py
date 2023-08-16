@@ -23,8 +23,10 @@ def display_recipes():
 
 @app.route('/recipes/<int:recipe_id>')
 def show_recipe(recipe_id):
-    pass
-
+    this_recipe = recipe.Recipe.get_by_id(recipe_id)
+    recipe_creator = user.User.get_by_id(this_recipe.creator_id)
+    current_user = user.User.get_by_id(session['user_id'])
+    return render_template('show_recipe.html', recipe=this_recipe, recipe_creator=recipe_creator, user=current_user)
 
 @app.route('/recipes/add')
 def add_r_page():
@@ -42,9 +44,11 @@ def add_recipe():
 
 @app.route('/recipes/<int:recipe_id>/edit')
 def show_edit_page(recipe_id):
-    if 'user_id' not in session.keys():
-        return redirect('/')
     this_recipe = recipe.Recipe.get_by_id(recipe_id)
+    if session['user_id'] != this_recipe.creator_id:
+        session.clear()
+        return redirect('/')
+    
     return render_template('edit_recipe.html', recipe=this_recipe)
 
 @app.post('/process/edit')
@@ -53,4 +57,13 @@ def edit_recipe():
     if not recipe.Recipe.validate_recipe(request.form):
         return redirect(f'/recipes/{recipe_id}/edit')
     recipe.Recipe.update(request.form)
+    return redirect('/recipes')
+
+@app.post('/recipes/<int:recipe_id>/delete')
+def delete_recipe(recipe_id):
+    this_recipe = recipe.Recipe.get_by_id(recipe_id)
+    if session['user_id'] != this_recipe.creator_id:
+        session.clear()
+        return redirect('/')
+    recipe.Recipe.delete(recipe_id)
     return redirect('/recipes')

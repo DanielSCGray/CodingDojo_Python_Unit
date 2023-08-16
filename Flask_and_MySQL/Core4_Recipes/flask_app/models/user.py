@@ -123,6 +123,7 @@ class User:
                     'instructions': row['instructions'],
                     'under_30': row['under_30'],
                     'date_made': row['date_made'],
+                    'creator_id': row['creator_id'],
                     'created_at' : row['recipes.created_at'],
                     'updated_at' : row['recipes.updated_at']
                 }

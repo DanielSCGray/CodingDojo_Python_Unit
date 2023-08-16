@@ -15,6 +15,7 @@ class Recipe:
         self.instructions = data['instructions']
         self.under_30 = data['under_30']
         self.date_made = data['date_made']
+        self.creator_id = data['creator_id']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
@@ -73,6 +74,13 @@ class Recipe:
         SET name=%(name)s, description=%(description)s, instructions=%(instructions)s, under_30=%(under_30)s, date_made=%(date_made)s
         WHERE id = %(recipe_id)s;'''
         return connect_to_mysql(DATABASE).query_db(query, form_data)
-            
+    
+    @classmethod
+    def delete(cls, recipe_id):
+        query = '''
+        delete from recipes where id = %(recipe_id)s;
+        '''
+        data = {'recipe_id': recipe_id}
 
-            
+        connect_to_mysql(DATABASE).query_db(query, data)
+        return
