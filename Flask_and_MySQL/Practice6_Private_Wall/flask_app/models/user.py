@@ -1,4 +1,5 @@
 from flask_app.config.mysql_connection import connect_to_mysql
+from flask_app.models import message
 import re
 from flask import flash
 
@@ -17,6 +18,7 @@ class User:
         self.last_name = data['last_name']
         self.email = data['email']
         self.password = data['password']
+        self.my_messages = []
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
@@ -62,9 +64,6 @@ class User:
         return is_valid
 
 
-    @staticmethod
-    def validate_login():
-        pass
 
     @classmethod
     def create(cls, data):
@@ -90,3 +89,42 @@ class User:
             return False
         user = User(result[0])
         return user
+    
+    @classmethod
+    def get_by_id(cls, user_id):
+        query = '''
+        select * from users 
+        where id = %(user_id)s;
+        '''
+        data = {'user_id': user_id} 
+        result = connect_to_mysql(DATABASE).query_db(query, data)
+        user = User(result[0])
+        return user
+
+    @classmethod
+    def get_with_messages(cls, user_id):
+        query = '''SELECT * FROM users 
+        LEFT JOIN messages ON messages.recipient_id = users.id
+        WHERE users.id = %(user_id)s;'''
+        data = {'user_id': user_id}
+        results = connect_to_mysql(DATABASE).query_db(query, data)
+
+        user = User(results[0])
+        for row in results:
+            if row['messages.id']:
+                message_data = {
+                    'id': row['messages.id'],
+                    'content': row['content'],
+                    'sender_id': row['sender_id'],
+                    'recipient_id': row['recipient_id'],
+                    'created_at' : row['messages.created_at'],
+                    'updated_at' : row['messages.updated_at']
+                }
+                user.my_messages.append(message.Message(message_data))
+        return user
+    
+    def recieved_mail_senders(self):
+        iterable = []
+        for message in self.my_messages:
+            iterable.append(message.pair_message_and_sender())
+        return iterable
