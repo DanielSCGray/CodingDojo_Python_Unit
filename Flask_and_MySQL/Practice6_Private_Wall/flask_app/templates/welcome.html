@@ -26,18 +26,28 @@
         </div>
         <div class="row gx-5">
             <div class="col-4 m-5">
-                <h1>Your Messages</h1>
-
+                <h1>{{ num_recieved_messages }} Messages for you</h1>
+                {% for message,sender in recieved_messages %}
+                    
+                <div class="row border">
+                    <div class="col-auto m-3">{{ sender.first_name }}</div>
+                    <div class="col-auto m-3"><p>{{ message.content }}</p></div>
+                    <div class="col-auto m-3"> <form action="/delete/{{message.id}}" method="post">
+                        <input type="submit" value="Delete">
+                    </form></div>
+                </div>
+                {% endfor %}
             </div>
             <div class="col-4 m-5">
                 <h1>Send messages</h1>
                 {% for other_user in other_users %}
-                <div class="row">
+                <div class="row mb-2">
                     <form action="/send" method="post">
                         <input type="hidden" name="recipient_id" id="recipient_id" value="{{ other_user.id }}">
+                        <input type="hidden" name="sender_id" id="sender_id" value="{{ user.id }}">
                         <div class="col-auto">
-                            <label for="message" class="form-control">{{ other_user.first_name }}</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <label for="content" class="form-control">{{ other_user.first_name }}</label>
+                            <textarea class="form-control" name='content' id="content" rows="3"></textarea>
                         </div>
                         <div class="col-auto">
                             <button type="submit" class="btn btn-primary">Send</button>

@@ -19,6 +19,7 @@ class User:
         self.email = data['email']
         self.password = data['password']
         self.my_messages = []
+        self.my_sent_messages = []
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
@@ -128,3 +129,25 @@ class User:
         for message in self.my_messages:
             iterable.append(message.pair_message_and_sender())
         return iterable
+
+    @classmethod
+    def get_with_sent_messages(cls, user_id):
+        query = '''SELECT * FROM users 
+        LEFT JOIN messages ON messages.sender_id = users.id
+        WHERE users.id = %(user_id)s;'''
+        data = {'user_id': user_id}
+        results = connect_to_mysql(DATABASE).query_db(query, data)
+
+        user = User(results[0])
+        for row in results:
+            if row['messages.id']:
+                message_data = {
+                    'id': row['messages.id'],
+                    'content': row['content'],
+                    'sender_id': row['sender_id'],
+                    'recipient_id': row['recipient_id'],
+                    'created_at' : row['messages.created_at'],
+                    'updated_at' : row['messages.updated_at']
+                }
+                user.my_sent_messages.append(message.Message(message_data))
+        return user

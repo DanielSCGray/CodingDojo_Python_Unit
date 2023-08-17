@@ -37,11 +37,7 @@ def log_in():
     session['user_id'] = current_user.id
     return redirect('/welcome')
 
-@app.route('/welcome')
-def welcome_page():
-    if 'user_id' not in session.keys():
-        return redirect('/')
-    return render_template('welcome.html')
+
 
 @app.post('/log_out')
 def log_out():
